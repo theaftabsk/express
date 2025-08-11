@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Express Dhaba & Family Restaurant offers cozy dining, authentic Indian cuisine, and great coffee in Palasi, Mira, West Bengal.">
+  <meta name="keywords" content="restaurant, dhaba, dining, West Bengal, coffee, family restaurant, Indian food, Palasi Mira">
+  <meta property="og:title" content="Express Dhaba & Family Restaurant | Palasi, West Bengal" />
+  <meta property="og:description" content="Enjoy authentic Indian cuisine in a cozy setting at Express Dhaba in Palasi, Mira, West Bengal." />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?q=80&w=1600" />
+  <meta property="og:url" content="https://expressdhaba.com" />
+  <title>Express Dhaba & Family Restaurant | Palasi, West Bengal</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="icon" href="https://via.placeholder.com/32x32.png?text=ED" type="image/png">
+  <style>
+    :root {
+      --accent: #e76f51;
+      --accent-dark: #d65a3f;
+      --secondary: #2e7d32;
+      --secondary-dark: #1b5e20;
+      --bg: #fffaf6;
+      --card: #fff;
+      --muted: #6b6b6b;
+      --radius: 12px;
+      --maxw: 1200px;
+      font-family: 'Poppins', sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: #222;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    .preloader {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg);
+      display: flex; align-items: center; justify-content: center; z-index: 9999;
+      transition: opacity 0.5s ease;
+    }
+    .preloader.hide { opacity: 0; pointer-events: none; }
+    .preloader::after {
+      content: ''; width: 40px; height: 40px; border: 4px solid var(--accent);
+      border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .container { max-width: var(--maxw); margin: auto; padding: 0 20px; }
+    header {
+      position: sticky; top: 0; background: var(--bg); z-index: 100;
+      padding: 16px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex;
+      justify-content: space-between; align-items: center; flex-wrap: wrap;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .logo {
+      width: 60px; height: 60px; background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      border-radius: var(--radius); display: flex; align-items: center; justify-content: center;
+      color: white; font-weight: bold; font-size: 20px; transition: transform 0.3s ease;
+    }
+    .logo:hover { transform: scale(1.1); }
+    h1 { margin: 0; font-size: 24px; }
+    nav { display: flex; gap: 20px; align-items: center; }
+    nav a { text-decoration: none; color: var(--muted); font-weight: 500; transition: color 0.3s ease; }
+    nav a:hover { color: var(--accent); }
+    .nav-toggle { display: none; font-size: 24px; color: var(--accent); cursor: pointer; }
+    .btn {
+      background: var(--accent); color: #fff; padding: 10px 20px; border-radius: 8px;
+      text-decoration: none; font-weight: 600; transition: all 0.3s ease; display: inline-block;
+    }
+    .btn:hover { background: var(--accent-dark); transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent; border: 2px solid var(--accent); color: var(--accent);
+    }
+    .btn-outline:hover { background: var(--accent); color: white; }
+    .hero {
+      position: relative; background: url('https://images.unsplash.com/photo-1600891964599-f61ba0e24092?q=80&w=1600') center/cover fixed;
+      color: white; padding: 140px 20px; text-align: center; border-radius: var(--radius);
+      margin-bottom: 40px;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.4)); border-radius: var(--radius);
+    }
+    .hero-content { position: relative; animation: fadeIn 1s ease-in; max-width: 900px; margin: 0 auto; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .hero h2 { font-size: 48px; margin-bottom: 16px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+    .hero p { font-size: 22px; margin-bottom: 32px; }
+    .hero-btns { display: flex; gap: 16px; justify-content: center; }
+    .card {
+      background: var(--card); padding: 32px; border-radius: var(--radius);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 40px;
+      position: relative; overflow: hidden;
+    }
+    .card::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+      background: linear-gradient(to right, var(--accent), var(--secondary));
+    }
+    section h2 { margin-top: 0; font-size: 34px; color: var(--accent-dark); text-align: center; margin-bottom: 24px; }
+    .section-subtitle {
+      text-align: center; color: var(--muted); max-width: 700px; margin: 0 auto 32px; font-size: 16px;
+    }
+    .highlights {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px;
+      background: #f9f2ee; padding: 24px; border-radius: var(--radius);
+    }
+    .highlight {
+      background: var(--card); padding: 20px; border-radius: var(--radius);
+      text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.05); transition: all 0.3s ease;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+    }
+    .highlight:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+    .highlight i { font-size: 28px; color: var(--accent); transition: color 0.3s ease; }
+    .highlight:hover i { color: var(--accent-dark); }
+    .featured-dish {
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: white; padding: 40px; text-align: center; border-radius: var(--radius);
+      margin-bottom: 40px; display: flex; align-items: center; gap: 32px;
+    }
+    .featured-dish img { width: 300px; height: 200px; object-fit: cover; border-radius: var(--radius); }
+    .featured-content { flex: 1; }
+    .featured-content h3 { font-size: 28px; margin-bottom: 16px; }
+    .menu-grid {
+      display: flex; flex-direction: column; align-items: flex-start; gap: 24px;
+      max-width: 320px; /* Single column width for three items */
+    }
+    .menu-item {
+      background: var(--card); border-radius: var(--radius); overflow: hidden;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer;
+      width: 100%; border: 1px solid #eee;
+    }
+    .menu-item:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.15); border-color: var(--accent); }
+    .menu-item img { width: 100%; height: 200px; object-fit: cover; transition: transform 0.5s ease; }
+    .menu-item:hover img { transform: scale(1.05); }
+    .menu-item div { padding: 16px; }
+    .menu-item h3 { margin: 0 0 8px; font-size: 18px; }
+    .menu-item p { font-size: 14px; color: var(--muted); margin: 8px 0; }
+    .price { color: var(--accent-dark); font-weight: bold; font-size: 18px; }
+    .veg-nonveg { display: flex; gap: 8px; margin-top: 8px; }
+    .veg, .nonveg { font-size: 12px; padding: 4px 10px; border-radius: 6px; }
+    .veg { background: #e8f5e9; color: var(--secondary); }
+    .nonveg { background: #ffebee; color: #c62828; }
+    .menu-footer { text-align: left; margin-top: 24px; }
+    .gallery-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;
+      margin-bottom: 40px;
+    }
+    .gallery-item img {
+      width: 100%; height: 200px; object-fit: cover; border-radius: var(--radius);
+      transition: transform 0.3s ease; cursor: pointer;
+    }
+    .gallery-item img:hover { transform: scale(1.03); }
+    .reviews { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+    .review {
+      background: var(--card); padding: 20px; border-radius: var(--radius);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05); display: flex; gap: 16px; align-items: flex-start;
+      transition: all 0.3s ease;
+    }
+    .review:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+    .review img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
+    .review-content { flex: 1; }
+    .stars { color: #f4b400; font-size: 16px; margin-bottom: 8px; }
+    .reviewer { font-weight: 600; color: var(--accent-dark); }
+    .contact-info {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;
+      margin-bottom: 32px;
+    }
+    .contact-card {
+      background: #f9f2ee; padding: 20px; border-radius: var(--radius); text-align: center;
+      transition: transform 0.3s ease;
+    }
+    .contact-card:hover { transform: translateY(-5px); }
+    .contact-card i { font-size: 28px; color: var(--accent); margin-bottom: 12px; }
+    .contact-form { max-width: 800px; margin: 0 auto; }
+    .contact-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .contact-form-grid .full-width { grid-column: 1 / -1; }
+    .contact-form label { display: block; font-weight: 500; margin-bottom: 8px; color: var(--accent-dark); }
+    .contact-form input, .contact-form textarea, .contact-form select {
+      width: 100%; padding: 12px; margin-bottom: 16px; border-radius: 8px; border: 1px solid #ddd;
+      font-family: 'Poppins', sans-serif; transition: all 0.3s ease;
+    }
+    .contact-form input:focus, .contact-form textarea:focus, .contact-form select:focus {
+      outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(231, 111, 81, 0.2);
+    }
+    .contact-form button {
+      background: var(--accent); color: white; padding: 14px 28px; border: none;
+      border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;
+    }
+    .contact-form button:hover { background: var(--accent-dark); transform: translateY(-2px); }
+    footer {
+      margin-top: 64px; padding: 48px 0; background: #f9f2ee; color: var(--muted);
+    }
+    .footer-content {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px;
+      max-width: var(--maxw); margin: 0 auto 32px; padding: 0 20px;
+    }
+    .footer-col h3 { color: var(--accent-dark); margin-bottom: 16px; font-size: 18px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 8px; }
+    .footer-col a { color: var(--muted); text-decoration: none; transition: color 0.3s ease; }
+    .footer-col a:hover { color: var(--accent); }
+    .social-icons { display: flex; justify-content: center; gap: 16px; margin-bottom: 24px; }
+    .social-icons a {
+      width: 44px; height: 44px; background: var(--accent); color: white;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      transition: all 0.3s ease;
+    }
+    .social-icons a:hover { background: var(--accent-dark); transform: translateY(-3px); }
+    .newsletter-form { max-width: 400px; margin: 0 auto; }
+    .newsletter-form input { padding: 12px; border-radius: 8px 0 0 8px; border: 1px solid #ddd; width: 70%; }
+    .newsletter-form button {
+      padding: 12px 20px; border-radius: 0 8px 8px 0; background: var(--accent); color: white;
+      border: none; cursor: pointer; width: 30%; transition: all 0.3s ease;
+    }
+    .newsletter-form button:hover { background: var(--accent-dark); }
+    .back-to-top {
+      position: fixed; bottom: 30px; right: 30px; background: var(--accent); color: white;
+      width: 50px; height: 50px; border-radius: 50%; display: none; align-items: center;
+      justify-content: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); transition: all 0.3s ease; z-index: 99;
+    }
+    .back-to-top.show { display: flex; }
+    .back-to-top:hover { background: var(--accent-dark); transform: translateY(-3px); }
+    .hours-table { width: 100%; border-collapse: collapse; margin-top: 16px; max-width: 500px; margin-left: auto; margin-right: auto; }
+    .hours-table td { padding: 10px 0; border-bottom: 1px solid #eee; }
+    .hours-table tr:last-child td { border-bottom: none; }
+    .hours-table .day { font-weight: 500; }
+    .hours-table .time { text-align: right; }
+    .divider {
+      height: 1px; background: linear-gradient(to right, transparent, #ddd, transparent);
+      margin: 48px 0;
+    }
+    .lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center; }
+    .lightbox.show { display: flex; }
+    .lightbox img { max-width: 90%; max-height: 80%; border-radius: var(--radius); }
+    .lightbox-close { position: absolute; top: 20px; right: 20px; color: white; font-size: 30px; cursor: pointer; }
+    .menu-category {
+      margin-bottom: 40px;
+    }
+    .menu-category h3 {
+      background: var(--accent);
+      color: white;
+      padding: 12px 20px;
+      border-radius: var(--radius);
+      margin-bottom: 20px;
+      display: inline-block;
+    }
+    @media (max-width: 768px) {
+      header { flex-direction: column; gap: 16px; text-align: center; }
+      nav { display: none; flex-direction: column; width: 100%; padding: 16px 0; }
+      nav.show { display: flex; }
+      .nav-toggle { display: block; }
+      .hero { padding: 80px 20px; background-attachment: scroll; }
+      .hero h2 { font-size: 36px; }
+      .hero p { font-size: 18px; }
+      .hero-btns { flex-direction: column; align-items: center; }
+      .card { padding: 24px; }
+      section h2 { font-size: 28px; }
+      .featured-dish { flex-direction: column; }
+      .featured-dish img { width: 100%; max-width: 400px; }
+      .menu-grid { max-width: 100%; align-items: center; }
+      .menu-footer { text-align: center; }
+    }
+    @media (max-width: 480px) {
+      .hero h2 { font-size: 28px; }
+      .hero p { font-size: 16px; }
+      .menu-grid, .reviews, .gallery-grid { align-items: center; }
+      .contact-form-grid { grid-template-columns: 1fr; }
+      .footer-content { grid-template-columns: 1fr; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="preloader" id="preloader"></div>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">ED</div>
+        <div>
+          <h1>Express Dhaba & Family Restaurant</h1>
+          <div style="color: var(--muted); font-size: 14px;">Fresh Taste · Fast Service</div>
+        </div>
+      </div>
+      <i class="fas fa-bars nav-toggle" id="navToggle"></i>
+      <nav id="navMenu">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#menu">Menu</a>
+        <a href="#hours">Hours</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#contact">Contact</a>
+        <a class="btn" href="tel:+919876543210" aria-label="Call Express Dhaba"><i class="fas fa-phone"></i> Call Now</a>
+      </nav>
+    </header>
+
+    <div class="hero" id="home">
+      <div class="hero-content">
+        <h2>Authentic Indian Cuisine in Palasi</h2>
+        <p>Experience the rich flavors of India with our carefully crafted dishes made from fresh, local ingredients.</p>
+        <div class="hero-btns">
+          <a href="#menu" class="btn" aria-label="Explore Menu"><i class="fas fa-utensils"></i> Explore Menu</a>
+          <a href="#contact" class="btn btn-outline" aria-label="Book a Table"><i class="fas fa-calendar-check"></i> Book a Table</a>
+        </div>
+      </div>
+    </div>
+
+    <section class="featured-dish">
+      <div class="featured-content">
+        <h3>Today's Special: Chicken Biryani</h3>
+        <p>Savor our fragrant basmati rice cooked with tender chicken and a blend of aromatic spices. Available today only at a special price!</p>
+        <div class="price">₹160</div>
+        <a href="#contact" class="btn btn-outline" aria-label="Order Now">Order Now</a>
+      </div>
+      <img src="https://images.unsplash.com/photo-1589301760014-d929f3979dbc?q=80&w=800&format=webp" alt="Chicken Biryani special">
+    </section>
+
+    <section class="card" id="about">
+      <h2>About Our Dhaba</h2>
+      <p class="section-subtitle">A family-owned restaurant serving authentic Indian flavors since 2010</p>
+      <p>At Express Dhaba, we bring you the true taste of India with recipes passed down through generations. Our chefs use only the freshest ingredients and traditional cooking methods to create dishes that will transport you to the heart of Indian cuisine.</p>
+      <p>Whether you're looking for a quick bite, a family dinner, or catering for special events, we offer a warm atmosphere with friendly service that will make you feel right at home.</p>
+      <div class="divider"></div>
+      <div class="highlights">
+        <div class="highlight"><i class="fas fa-clock"></i> Quick Service</div>
+        <div class="highlight"><i class="fas fa-leaf"></i> Fresh Ingredients</div>
+        <div class="highlight"><i class="fas fa-utensils"></i> Daily Specials</div>
+        <div class="highlight"><i class="fas fa-car"></i> Ample Parking</div>
+        <div class="highlight"><i class="fas fa-wheelchair"></i> Accessible</div>
+        <div class="highlight"><i class="fas fa-wifi"></i> Free WiFi</div>
+      </div>
+    </section>
+
+    <section id="menu" class="card">
+      <h2>Our Specialties</h2>
+      <p class="section-subtitle">Explore our delicious menu featuring authentic Indian dishes</p>
+      <div class="menu-category">
+        <h3>Featured Dishes</h3>
+        <div class="menu-grid">
+          <div class="menu-item" data-img="https://images.unsplash.com/photo-1607532941433-304659e8198a?q=80&w=800&format=webp">
+            <img src="https://images.unsplash.com/photo-1607532941433-304659e8198a?q=80&w=800&format=webp" alt="Green Salad dish">
+            <div>
+              <h3>Green Salad</h3>
+              <p>Fresh and crisp vegetables tossed with a light dressing.</p>
+              <div class="veg-nonveg"><span class="veg"><i class="fas fa-leaf"></i> Veg</span></div>
+              <div class="price">₹60</div>
+            </div>
+          </div>
+          <div class="menu-item" data-img="https://i.ibb.co/DDrkNRFG/images-4.jpg">
+            <img src="https://i.ibb.co/DDrkNRFG/images-4.jpg" alt="Veg Hot & Sour Soup dish">
+            <div>
+              <h3>Veg Hot & Sour Soup</h3>
+              <p>A spicy and tangy soup with fresh vegetables.</p>
+              <div class="veg-nonveg"><span class="veg"><i class="fas fa-leaf"></i> Veg</span></div>
+              <div class="price">₹80</div>
+            </div>
+          </div>
+          <div class="menu-item" data-img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_7EmdH71bX6lKH9qRzkm70schQnx1_q05Ug&s">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_7EmdH71bX6lKH9qRzkm70schQnx1_q05Ug&s" alt="Chicken Tikka dish">
+            <div>
+              <h3>Chicken Tikka (6 Pic)</h3>
+              <p>Marinated chicken pieces grilled to perfection.</p>
+              <div class="veg-nonveg"><span class="nonveg"><i class="fas fa-dot-circle"></i> Non-Veg</span></div>
+              <div class="price">₹290</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="menu-footer">
+        <a href="#contact" class="btn" aria-label="View Full Menu">View Full Menu</a>
+      </div>
+    </section>
+
+    <section id="gallery" class="card">
+      <h2>Our Ambiance</h2>
+      <p class="section-subtitle">Take a look at our cozy dining space and vibrant atmosphere</p>
+      <div class="gallery-grid">
+        <div class="gallery-item"><img src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4nqND7eV9jsMAXEkQY5_QutFLw9ZK9HXj75l603fRFAuDbALnbHGxpr1zy2ZWKFaebtUSmYSYB2MsKYB0nY0r6GSdw7QBN0In9r2Wh0W9foSWb0d4kZdl2BevsrWRh8nxfbvyY7w=s1590-w800-h1590-rw" alt="Restaurant interior"></div>
+        <div class="gallery-item"><img src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4nrkKm9wnDdlt2wM4a2CPiOKzBVI4j8dbDd1qWBeF5CwcilvOLPDuuSYHerjDQvaN5LGUdsVcVAwbo_9BdNxNq3DrTWEziCTIy57zpW9aUiX1gsKkdrPIBr88rw8nm4uTK7y0v4GYg=s1590-w800-h1590-rw" alt="Dining area"></div>
+      </div>
+    </section>
+
+    <section id="hours" class="card">
+      <h2>Opening Hours</h2>
+      <p class="section-subtitle">We're open 7 days a week to serve you</p>
+      <table class="hours-table">
+        <tr><td class="day">Monday - Friday</td><td class="time">10:00 AM - 10:00 PM</td></tr>
+        <tr><td class="day">Saturday</td><td class="time">10:00 AM - 11:00 PM</td></tr>
+        <tr><td class="day">Sunday</td><td class="time">9:00 AM - 11:00 PM</td></tr>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>What Our Customers Say</h2>
+      <p class="section-subtitle">Hear from our happy diners</p>
+      <div class="reviews">
+        <div class="review">
+          <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="Rahul's avatar">
+          <div class="review-content">
+            <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+            <p>"The chicken biryani here is the best I've had in West Bengal! The spices are perfectly balanced."</p>
+            <div class="reviewer">— Rahul Sharma</div>
+          </div>
+        </div>
+        <div class="review">
+          <img src="https://randomuser.me/api/portraits/women/2.jpg" alt="Priya's avatar">
+          <div class="review-content">
+            <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
+            <p>"We come here every Sunday for family lunch. The thali is amazing value!"</p>
+            <div class="reviewer">— Priya Patel</div>
+          </div>
+        </div>
+        <div class="review">
+          <img src="https://randomuser.me/api/portraits/women/3.jpg" alt="Ananya's avatar">
+          <div class="review-content">
+            <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+            <p>"As a vegetarian, I love their paneer butter masala. Highly recommended!"</p>
+            <div class="reviewer">— Ananya Das</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" id="contact">
+      <h2>Get in Touch</h2>
+      <p class="section-subtitle">We'd love to hear from you or welcome you for a meal</p>
+      <div class="contact-info">
+        <div class="contact-card">
+          <i class="fas fa-map-marker-alt"></i>
+          <h3>Location</h3>
+          <p>NH 12, Palasi, Mira<br>West Bengal 741156</p>
+        </div>
+        <div class="contact-card">
+          <i class="fas fa-phone"></i>
+          <h3>Phone</h3>
+          <p><a href="tel:+919876543210">+91 9876543210</a></p>
+        </div>
+        <div class="contact-card">
+          <i class="fas fa-envelope"></i>
+          <h3>Email</h3>
+          <p><a href="mailto:info@expressdhaba.com">info@expressdhaba.com</a></p>
+        </div>
+      </div>
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3686.234567890123!2d88.12345678901234!3d22.56789012345678!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a02777777777777%3A0x1234567890abcdef!2sExpress%20Dhaba%20%26%20Family%20Restaurant!5e0!3m2!1sen!2sin!4v1234567890123!5m2!1sen!2sin" 
+        width="100%" height="350" style="border:0; border-radius: var(--radius); margin-bottom: 32px;" allowfullscreen="" loading="lazy" aria-label="Map of Express Dhaba location"></iframe>
+      <form class="contact-form" onsubmit="alert('Thank you for your message! We will get back to you soon.');return false;">
+        <div class="contact-form-grid">
+          <div>
+            <label for="name">Your Name</label>
+            <input type="text" id="name" placeholder="Your Name" required aria-required="true" />
+          </div>
+          <div>
+            <label for="email">Your Email</label>
+            <input type="email" id="email" placeholder="Your Email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Enter a valid email address" aria-required="true" />
+          </div>
+          <div class="full-width">
+            <label for="inquiry">Type of Inquiry</label>
+            <select id="inquiry" required aria-required="true">
+              <option value="" disabled selected>Select an option</option>
+              <option value="reservation">Table Reservation</option>
+              <option value="feedback">Feedback</option>
+              <option value="catering">Catering Inquiry</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="full-width">
+            <label for="message">Your Message</label>
+            <textarea id="message" placeholder="Your Message" rows="5" required minlength="10" aria-required="true"></textarea>
+          </div>
+          <div class="full-width">
+            <button type="submit" aria-label="Send Message">Send Message</button>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <footer>
+      <div class="footer-content">
+        <div class="footer-col">
+          <h3>About Us</h3>
+          <p>Express Dhaba is a family-owned restaurant serving authentic Indian cuisine with love and care since 2010.</p>
+        </div>
+        <div class="footer-col">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#hours">Hours</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3>Contact Info</h3>
+          <ul>
+            <li><i class="fas fa-map-marker-alt"></i> NH 12, Palasi, Mira, West Bengal 741156</li>
+            <li><i class="fas fa-phone"></i> <a href="tel:+919876543210">+91 9876543210</a></li>
+            <li><i class="fas fa-envelope"></i> <a href="mailto:info@expressdhaba.com">info@expressdhaba.com</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="social-icons">
+        <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://twitter.com" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+      </div>
+      <div class="newsletter-form">
+        <form onsubmit="alert('Thank you for subscribing!');return false;">
+          <input type="email" placeholder="Enter your email" required aria-label="Email for newsletter" />
+          <button type="submit" aria-label="Subscribe to newsletter">Subscribe</button>
+        </form>
+      </div>
+      <p style="text-align: center; margin-top: 24px;">© 2025 Express Dhaba & Family Restaurant — All Rights Reserved</p>
+    </footer>
+    <a href="#home" class="back-to-top" id="backToTop" aria-label="Back to Top"><i class="fas fa-chevron-up"></i></a>
+  </div>
+
+  <div class="lightbox" id="lightbox">
+    <span class="lightbox-close" id="lightboxClose">&times;</span>
+    <img id="lightboxImg" src="" alt="Enlarged dish image">
+  </div>
+
+  <script>
+    // Preloader
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('preloader').classList.add('hide');
+      }, 1000);
+    });
+
+    // Hamburger menu
+    const navToggle = document.getElementById('navToggle');
+    const navMenu = document.getElementById('navMenu');
+    navToggle.addEventListener('click', () => {
+      navMenu.classList.toggle('show');
+    });
+
+    // Back to top
+    window.addEventListener('scroll', () => {
+      const backToTop = document.getElementById('backToTop');
+      if (window.scrollY > 300) {
+        backToTop.classList.add('show');
+      } else {
+        backToTop.classList.remove('show');
+      }
+    });
+
+    // Lightbox for menu images
+    const menuItems = document.querySelectorAll('.menu-item');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxClose = document.getElementById('lightboxClose');
+    menuItems.forEach(item => {
+      item.addEventListener('click', () => {
+        lightboxImg.src = item.dataset.img;
+        lightbox.classList.add('show');
+      });
+    });
+    lightboxClose.addEventListener('click', () => {
+      lightbox.classList.remove('show');
+    });
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) lightbox.classList.remove('show');
+    });
+
+    // Full menu data (for reference)
+    const fullMenu = {
+      salad: [{ name: "Green Salad", price: 60, type: "veg" }],
+      soup: [
+        { name: "Veg Hot & Sour Soup", price: 80, type: "veg" },
+        { name: "Nonveg Hot & Sour Soup", price: 100, type: "nonveg" }
+      ],
+      vegKabab: [
+        { name: "Paneer Tikka (6 Pic)", price: 220, type: "veg" },
+        { name: "Veg Seekh Kabab (6 Pic)", price: 170, type: "veg" }
+      ],
+      nonVegKabab: [
+        { name: "Chicken Tandoori (4 Pic / 8 Pic)", price: 280, type: "nonveg" },
+        { name: "Fish Tikka (6 Pic)", price: 280, type: "nonveg" },
+        { name: "Chicken Tikka (6 Pic)", price: 290, type: "nonveg" },
+        { name: "Prawn Tikka (6 Pic)", price: 280, type: "nonveg" },
+        { name: "Fish Cutlet (2 Pic)", price: 150, type: "nonveg" }
+      ],
+      starterVeg: [
+        { name: "Paneer Pakoda (6 Pic)", price: 150, type: "veg" },
+        { name: "Paneer 65 (6 Pic)", price: 150, type: "veg" },
+        { name: "Chilly Paneer (Dry/Gravy) (6 Pic)", price: 150, type: "veg" },
+        { name: "French Fries", price: 100, type: "veg" }
+      ],
+      starterNonVeg: [
+        { name: "Chicken Nugget", price: 190, type: "nonveg" },
+        { name: "Chicken Popcorn", price: 150, type: "nonveg" },
+        { name: "Chicken Pakoda (6 Pic)", price: 170, type: "nonveg" },
+        { name: "Chicken Lollipop (6 Pic)", price: 190, type: "nonveg" },
+        { name: "Drums Of Haven (6 Pic)", price: 190, type: "nonveg" },
+        { name: "Chilly Chicken (Dry/Gravy) (6 Pic)", price: 160, type: "nonveg" },
+        { name: "Chicken 65 (6 Pic)", price: 190, type: "nonveg" },
+        { name: "Fish Finger (6 Pic)", price: 220, type: "nonveg" },
+        { name: "Chicken Egg Roll", price: 110, type: "nonveg" }
+      ],
+      chowmein: [
+        { name: "Veg Chowmein", price: 70, type: "veg" },
+        { name: "Egg Chowmein", price: 90, type: "nonveg" },
+        { name: "Chicken Chowmein", price: 130, type: "nonveg" },
+        { name: "Mix Chowmein", price: 170, type: "nonveg" },
+        { name: "Mix Hakka Chowmein", price: 180, type: "nonveg" }
+      ],
+      iceCream: [{ name: "All Type Ice Cream", price: 120, type: "veg" }],
+      softDrink: [
+        { name: "Plain Cold Drink", price: 50, type: "veg" },
+        { name: "Masala Cold Drink", price: 80, type: "veg" },
+        { name: "Fresh Lime Soda", price: 100, type: "veg" },
+        { name: "Mocktail All Type", price: 150, type: "veg" },
+        { name: "Juice", price: 120, type: "veg" },
+        { name: "Lassi", price: 100, type: "veg" }
+      ],
+      rice: [
+        { name: "Veg Fried Rice", price: 80, type: "veg" },
+        { name: "Egg Fried Rice", price: 120, type: "nonveg" },
+        { name: "Chicken Fried Rice", price: 120, type: "nonveg" },
+        { name: "Mix Fried Rice", price: 150, type: "nonveg" },
+        { name: "Plain Rice", price: 50, type: "veg" },
+        { name: "Jeera Rice", price: 100, type: "veg" }
+      ],
+      dal: [
+        { name: "Dal Fry", price: 60, type: "veg" },
+        { name: "Dal Makhani", price: 130, type: "veg" }
+      ],
+      biryani: [
+        { name: "Veg Biryani", price: 120, type: "veg" },
+        { name: "Chicken Special Biryani", price: 220, type: "nonveg" },
+        { name: "Mutton Special Biryani", price: 320, type: "nonveg" }
+      ],
+      tandooriRoti: [
+        { name: "Plain Roti", price: 25, type: "veg" },
+        { name: "Butter Roti", price: 35, type: "veg" },
+        { name: "Plain Naan", price: 40, type: "veg" },
+        { name: "Butter Naan", price: 50, type: "veg" },
+        { name: "Kulcha", price: 70, type: "veg" },
+        { name: "Garlic Naan", price: 70, type: "veg" }
+      ],
+      indianMainCourseVeg: [
+        { name: "Mix Veg", price: 150, type: "veg" },
+        { name: "Paneer Butter Masala", price: 170, type: "veg" },
+        { name: "Kadai Paneer", price: 180, type: "veg" },
+        { name: "Aloo Dum", price: 120, type: "veg" },
+        { name: "Muttor Paneer", price: 150, type: "veg" }
+      ],
+      indianMainCourseNonVeg: [
+        { name: "Chicken Curry (2 Pic)", price: 150, type: "nonveg" },
+        { name: "Chicken Masala (2 Pic)", price: 190, type: "nonveg" },
+        { name: "Chicken Kossa (2 Pic)", price: 180, type: "nonveg" },
+        { name: "Chicken Chaap (2 Pic)", price: 210, type: "nonveg" },
+        { name: "Kadai Chicken (2 Pic)", price: 180, type: "nonveg" },
+        { name: "Chicken Bharta", price: 150, type: "nonveg" },
+        { name: "Mutton Kossa (2 Pic)", price: 230, type: "nonveg" },
+        { name: "Mutton Handi (4 Pic)", price: 390, type: "nonveg" },
+        { name: "Mutton Chaap (2 Pic)", price: 310, type: "nonveg" },
+        { name: "Egg Curry (2 Pic)", price: 100, type: "nonveg" },
+        { name: "Kadai Mutton (2 Pic)", price: 250, type: "nonveg" }
+      ],
+      breakfast: [
+        { name: "Aloo Paratha & Curd", price: 100, type: "veg" },
+        { name: "Bread Butter Jam (4 Pis)", price: 50, type: "veg" },
+        { name: "Boiled Egg (2 Pis)", price: 40, type: "nonveg" },
+        { name: "Omelet Double Egg", price: 40, type: "nonveg" },
+        { name: "Puri Bhaji (4 Pis)", price: 60, type: "veg" },
+        { name: "Chole Bhature (2 Pis)", price: 50, type: "veg" }
+      ],
+      teaCoffee: [
+        { name: "Red Tea", price: 20, type: "veg" },
+        { name: "Green Tea", price: 30, type: "veg" },
+        { name: "Normal Tea", price: 30, type: "veg" },
+        { name: "Black Coffee", price: 40, type: "veg" },
+        { name: "Special Coffee", price: 50, type: "veg" },
+        { name: "Malai Coffee", price: 60, type: "veg" },
+        { name: "Malai Tea", price: 40, type: "veg" }
+      ],
+      basmatiKhushbo: [
+        { name: "Kashmiri Polao", price: 120, type: "veg" },
+        { name: "Veg Polao", price: 100, type: "veg" },
+        { name: "Curd Rice", price: 70, type: "veg" },
+        { name: "Steam Rice", price: 50, type: "veg" },
+        { name: "Jeera Rice", price: 100, type: "veg" }
+      ],
+      thali: [{ name: "Express Dhaba Special Thali", price: 150, type: "veg" }]
+    };
+  </script>
+</body>
+</html>
